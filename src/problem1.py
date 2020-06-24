@@ -54,7 +54,7 @@ def Main():
 		sys.exit(-1)
 
 	spark_session = SparkSession.builder \
-	    .appName("Word Distribution") \
+	    .appName("Word distribution") \
 	    .getOrCreate()
 
 	wordistribution= wordDistribution(sys.argv[1],spark_session)

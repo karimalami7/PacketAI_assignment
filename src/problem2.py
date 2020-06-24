@@ -59,15 +59,15 @@ class wordFollwers:
 		""" 4/ Join RDDs words_count & word_and_follower
 		"""		
 
-		word_global= words_count.join(word_and_follower) \
+		word_register= words_count.join(word_and_follower) \
 			.map(lambda tuple: (tuple[0], Row(nw=tuple[1][1][0],p=tuple[1][1][1]/tuple[1][0]))) \
 			.groupByKey() \
 			.map(lambda tuple: Row(word=tuple[0],next=tuple[1]))
 
 		
-		word_global_df=self.spark_session.createDataFrame(word_global)
+		word_register_df=self.spark_session.createDataFrame(word_register)
 		
-		word_global_df.show()
+		word_register_df.write.format("mongo").mode("append").save()
 
 
 def Main():
@@ -78,6 +78,7 @@ def Main():
 
 	spark = SparkSession.builder \
 	    .appName("Word followers") \
+	    .config("spark.mongodb.output.uri", "mongodb://127.0.0.1/gutenberg.words") \
 	    .getOrCreate()
 
 	wordfollowers= wordFollwers(sys.argv[1],spark)
