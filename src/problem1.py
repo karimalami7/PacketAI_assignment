@@ -26,7 +26,7 @@ class wordDistribution:
 		sc=self.spark_session.sparkContext
 
 		""" 1/ Counting occurency of words """
-		word_count_rdd = sc.textFile(source_directory).flatMap(lambda line: line.split(" ")) \
+		word_count_rdd = sc.textFile(self.source_directory+"/*").flatMap(lambda line: line.split(" ")) \
 			.map(lambda word: re.sub('[^A-Za-z0-9]+', '', word)) \
 			.map(lambda word: word.lower()) \
 			.map(lambda word: (word,1)) \
@@ -43,8 +43,8 @@ class wordDistribution:
 		word_count_df= word_count_df.withColumn("zipf",1/word_count_df.rank)
 
 		""" 4/ Saving output into csv format """
-		#word_count_df.write.csv("../resources/output/zipf/output.csv")
-		word_count_df.show()
+		word_count_df.write.csv("output/zipf")
+		#word_count_df.show()
 
 
 def Main():

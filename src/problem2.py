@@ -26,7 +26,7 @@ class wordFollwers:
 
 		""" 1/ Create RDD of words"""
 
-		words = sc.textFile(self.source_directory) \
+		words = sc.textFile(self.source_directory+"/*") \
 			.flatMap(lambda line: line.split(" ")) \
 			.map(lambda word: re.sub('[^A-Za-z0-9]+', '', word)) \
 			.filter(lambda word: word!="") \
