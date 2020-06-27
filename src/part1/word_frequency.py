@@ -1,32 +1,37 @@
-from util import word_clean, break_line
+import sys
+sys.path.append('src/utility')
+from util import wordClean, breakLine
 from pyspark.sql import Row
 from pyspark.sql.functions import *
 from pyspark.sql.window import Window
 
 
-class WordDistribution:
+"""
+This class counts the frequency of words given a set of books.
+It ranks a word with respect to its count and compute zipf=1/word.rank
+"""
 
-	"""
-	Describe the class
-	"""
+class WordFrequency:
+
 
 	def __init__(self, spark_session, source_directory):
 
-		self.spark_session=spark_session
-		self.source_directory=source_directory
-
+		self.spark_session = spark_session
+		self.source_directory = source_directory
+		self.data = None
 
 	def compute(self):
 
+
 		### get spark_context from spark_session
-		spark_context=self.spark_session.sparkContext
+		spark_context = self.spark_session.sparkContext
 
 
 		""" 1/ Create RDD of words """
-		word_rdd = spark_context.textFile(self.source_directory+"/*",4) \
-			.flatMap(break_line) \
-			.map(word_clean) \
-			.filter(lambda word: word!="") \
+		word_rdd = spark_context.textFile(self.source_directory+"/*") \
+			.flatMap(breakLine) \
+			.map(wordClean) \
+			.filter(lambda word: word != "") \
 
 
 		""" 2/ Creating the DataFrame (word,count)
@@ -71,12 +76,3 @@ class WordDistribution:
 		"""
 
 		self.data = word_count_df.withColumn("zipf",1/word_count_df.rank)
-
-
-	def store_csv(self, output):
-
-		"""  Saving output data into csv format """
-		try:
-			self.data.write.save(output, format="csv", header=True)
-		except Exception as e:
-			raise e

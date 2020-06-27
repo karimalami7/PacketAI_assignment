@@ -1,5 +1,5 @@
 
-# PacketAI_assignment
+# PacketAI assignment
 
 
 Download Gutenberg project data and create a sample of X books
@@ -9,20 +9,21 @@ curl -sSL https://raw.githubusercontent.com/RHDZMOTA/spark-wordcount/develop/gut
 mkdir gutenberg-sample && ls gutenberg/ | shuf -n {X} | xargs -I _ cp gutenberg/_ gutenberg-sample/_
 ```
 
-Now change current directory to PackeAI_assignment
+Clone this repository and change the current directory to PacketAI_assignment
 
 ```shell 
+git clone https://github.com/karimalami7/PacketAI_assignment.git
 cd PacketAI_assignment/
 ```
 
-### Problem 1
+### Part 1
 To run spark job
 
 ```shell 
-$SPARK_HOME/bin/spark-submit src/problem1.py path/to/gutenberg-sample
+$SPARK_HOME/bin/spark-submit src/part1/main.py path/to/gutenberg-sample
 ```
 
-### Problem 2 
+### Part 2 
 
 Problem 2 requires mongodb. Download mongo image and create a docker container
 
@@ -34,7 +35,7 @@ sudo docker run -d -p 27017:27017 mongo
 Now run spark job
 
 ```shell 
-$SPARK_HOME/bin/spark-submit --packages org.mongodb.spark:mongo-spark-connector_2.11:2.4.2 src/problem2.py path/to/gutenberg-sample
+$SPARK_HOME/bin/spark-submit --packages org.mongodb.spark:mongo-spark-connector_2.11:2.4.2 src/part2/main.py path/to/gutenberg-sample
 ```
 
 To query results via mongo shell:
@@ -46,12 +47,12 @@ db.words.find()
 ```
 
 
-### Problem 3 
+### Part 3 
 First, run problem 2 to populate database
 
 To start the api server:
 ```shell
-python3 problem3.py <host> <port> <database> <collection>
+python3 api/part3/main.py <host> <port> <database> <collection>
 ```
 **Note**: In this setting:
 
