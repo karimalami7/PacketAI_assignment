@@ -16,6 +16,17 @@ git clone https://github.com/karimalami7/PacketAI_assignment.git
 cd PacketAI_assignment/
 ```
 
+This repository requires some python3 libraries 
+
+To check and install requirements and create a virtual environment, run
+```shell
+scripts/requirements.sh
+source P_AI/bin/activate
+pip3 install -r scripts/requirements.txt
+```
+
+**Note**: This repo requires also spark to be running. Set $SPARK_HOME to where spark is installed. 
+
 ### Part 1
 To run spark job
 
@@ -48,7 +59,7 @@ db.words.find()
 
 
 ### Part 3 
-First, run problem 2 to populate database
+First, run part 2 to populate database
 
 To start the api server:
 ```shell
