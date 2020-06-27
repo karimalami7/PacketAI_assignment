@@ -31,7 +31,7 @@ class Guess(Resource):
     	global mongoConnector
 
     	word_document=mongoConnector.get_document_by_word(request.args.get("word")[1:-1])
-   		return word_document.guess_next_word()  
+    	return word_document.guess_next_word()  
 
 
 	
